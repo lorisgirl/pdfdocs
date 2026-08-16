@@ -30,12 +30,16 @@ Workflow skills live in [process/ai/skills/](ai/skills/). Each skill is a direct
 
 | Action | Detail |
 |---|---|
-| **Install for a project** | Copy or symlink `process/ai/skills/*` into `.cursor/skills/` at the repository root. This repository already includes symlinks under `.cursor/skills/`. |
+| **Install for a project** | Copy or symlink `process/ai/skills/*` into `.cursor/skills/` at the repository root so the editor can discover them. |
 | **Invoke a skill** | Name the skill in chat (for example, "use the extract-facts skill") or attach `@extract-facts` where the editor supports skill references. |
 | **Provide inputs** | Paste the source reference, fact table, or draft Markdown described in each skill's "Input the writer provides" section. |
 | **Review output** | Run the skill's human review checklist before moving to the next pipeline step. |
 
 Skills use `disable-model-invocation: true` so they load only when explicitly invoked, not on every request.
+
+### What this submission includes
+
+This assignment delivers the **workflow design**: skills, style rules, and process documentation committed under `process/`. It does not include CI workflows, or lint configuration. 
 
 
 ## Pipeline overview
@@ -47,7 +51,7 @@ Skills use `disable-model-invocation: true` so they load only when explicitly in
 | **2. Extract facts** | AI, then writer | Invoke `extract-facts`. Writer diffs the table against the live reference and API Tester. | Reviewable fact table ([extract-facts](ai/skills/extract-facts/SKILL.md) skill). |
 | **3. Constrained first draft** | AI, then SME | Invoke `constrained-draft` with approved facts and reader outcome. SME validates endpoints, fields, and async handoff. | First-draft page under `pdfco-merge/` ([constrained-draft](ai/skills/constrained-draft/SKILL.md) skill). |
 | **Diátaxis structuring** *(optional)* | AI, then writer | Invoke `structure-and-diataxis`. Writer confirms the structure matches reader journeys. | Restructured draft or split plan ([structure-and-diataxis](ai/skills/structure-and-diataxis/SKILL.md) skill). |
-| **4. Automated checks** | CI, then writer | Run link, lint, front matter, and field-name checks on every change. Writer fixes failures. | CI pass with actionable lint output. |
+| **4. Automated checks** | CI, then writer *(production)* | Run link, lint, front matter, and field-name checks on every change. Writer fixes failures. | CI pass with actionable lint output. Manual equivalent until CI is configured. |
 | **5. Human review** | Writer, SME, support *(as needed)* | Verify high-impact claims: examples, async contract, credits, security, and workflow fit. | Approved Markdown ready to merge. |
 | **Editorial review** *(optional)* | AI, then writer | Invoke `editorial-review`. Verify URLs, media, and basic accessibility. Writer reviews and applies diff hunks selectively. | Annotated findings and unified diff ([editorial-review](ai/skills/editorial-review/SKILL.md) skill). |
 | **Publish** | Writer | Commit and merge to Git after gates pass. | Documentation in version control. |
@@ -113,11 +117,11 @@ The model is useful for coverage and consistency. It does not replace the writer
 | **Responsibility** | Validate objective, machine-checkable rules on every change |
 | **Inputs** | Markdown files under `pdfco-merge/`, reviewed fact table or field list |
 | **Outputs** | CI pass or fail with actionable lint messages |
-| **Skill** | None. Configure linters in the docs repository. |
+| **Skill** | None. Configure linters in the docs repository when moving to production. |
 | **Human review** | **Light.** Writer fixes failures. No SME required unless a lint exposes a factual mismatch |
 | **Risks caught** | Broken links, missing front matter, secret leakage, field-name drift from contract |
 
-These are the checks the repository should run automatically:
+These are the checks a production repository should run automatically. For this assignment submission, run the equivalent checks manually before merge:
 
 - Markdown files parse successfully.
 - Every page has front matter with `title`, `type`, `audience`, and `status`.

@@ -21,7 +21,7 @@ flowchart TD
   subgraph gather [2_Gather]
     G1[Collect official sources]
     G2[Run API Tester for behavior]
-    G3[Extract facts with AI step 1]
+    G3[Extract facts with AI step 2]
     G4[Human verifies fact table]
   end
 
@@ -91,7 +91,7 @@ If sources conflict, the issue is blocked until a human verifies behavior in the
 
 1. Read the linked source change (API diff, pricing page, ticket thread).
 2. Run the affected request in the API Tester and save request/response.
-3. Run AI **fact extraction** (see [AI workflow, step 2](./ai-assisted-docs-workflow.md#a-practical-drafting-loop)).
+3. Run AI **fact extraction** (see [AI workflow, step 2](./ai-assisted-docs-workflow.md#step-2-extract-facts-into-a-reviewable-table)).
 4. Compare the extracted table to live sources line by line.
 5. Attach the verified fact table to the issue.
 
@@ -113,9 +113,9 @@ Reader-facing content lives in topic folders (for example, `pdfco-merge/`). Reus
 ### Authoring steps
 
 1. Define the reader outcome in one sentence (issue or PR description).
-2. Run AI **constrained draft** using only the verified fact table ([AI workflow, step 3](./ai-assisted-docs-workflow.md#a-practical-drafting-loop)).
+2. Run AI **constrained draft** using only the verified fact table ([AI workflow, step 3](./ai-assisted-docs-workflow.md#step-3-generate-a-constrained-first-draft)).
 3. **Human SME review:** Verify endpoints, fields, defaults, limits, and examples against API Tester.
-4. Run AI **editorial review** against the style guide ([AI workflow, step 4](./ai-assisted-docs-workflow.md), formalized in component 4).
+4. Run AI **editorial review** against the style guide ([AI workflow, editorial review pass](./ai-assisted-docs-workflow.md#editorial-review)).
 5. **Human copy edit:** Accept or reject editorial suggestions. The writer owns the publish decision.
 
 ### Pull request requirements
@@ -130,6 +130,8 @@ Reader-facing content lives in topic folders (for example, `pdfco-merge/`). Reus
 Validation combines automated checks (objective) with human gates (judgment).
 
 ### Automated checks (CI)
+
+The checks below are **specified for a production implementation**. They are not configured in this assignment submission, which ships Markdown and process documentation only. In practice, a writer runs the equivalent checks manually before merge until CI is added.
 
 Run on every PR touching reader-facing content (for example, `pdfco-merge/`):
 
@@ -173,7 +175,7 @@ A documentation change is **done** when all of the following are true:
 - [ ] Facts were verified against official sources or API Tester before drafting.
 - [ ] All links, videos, and images were verified live and correct.
 - [ ] All affected Markdown files are updated and cross-linked correctly.
-- [ ] Automated CI checks pass.
+- [ ] Automated CI checks pass (or manual equivalent until CI is configured).
 - [ ] Human SME review is complete for API accuracy.
 - [ ] High-risk statements (pricing, security, retention, retries) have explicit human approval.
 - [ ] PR is merged to `main`.
