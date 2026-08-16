@@ -61,7 +61,7 @@ Steps 1–5 match the drafting loop referenced in [dynamic update scenarios](./d
 | | |
 |---|---|
 | **Responsibility** | State one testable outcome per page before AI drafting |
-| **Inputs** | [Topic brief](./topic-brief.md) reader goals, target page type, scope boundaries |
+| **Inputs** | [Assignment README](../README.md) reader goals, target page type, scope boundaries |
 | **Outputs** | One-sentence reader outcome worksheet per page |
 | **Skill** | [`reader-outcome`](ai/skills/reader-outcome/SKILL.md) |
 | **Human review** | **Required.** Writer confirms outcome matches page type and assignment scope |

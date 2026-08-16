@@ -93,7 +93,7 @@ New optional profile attribute with documented syntax, defaults, and an API Test
 |---|---|
 | `pdfco-merge/merge-reference.md` | Add `MergePageRanges` to the profiles table under a new or existing section. |
 | `pdfco-merge/troubleshooting.md` | Add new section about merge fail due to invalid range syntax. |
-| `process/topic-brief.md` | Update reader outcomes only if selective merge changes what the doc set promises. |
+| `README.md` | Update reader outcomes only if selective merge changes what the doc set promises. |
 
 **Not affected:** `merge-pdfs.md` (tutorial scope excludes profiles), `credits.md`.
 

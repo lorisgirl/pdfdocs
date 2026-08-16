@@ -33,7 +33,7 @@ You need:
 
 The `url` field is required. Pass multiple source URLs as a comma-separated string. The order of the URLs determines the order of the source documents in the merged output.
 
-To get started, replace `YOUR_API_KEY` with a value supplied securely by your shell or automation platform:
+To get started, replace `YOUR_API_KEY` with the value you copied from your PDF.co account. 
 
 ```bash
 curl --location --request POST 'https://api.pdf.co/v1/pdf/merge' \
@@ -45,7 +45,7 @@ curl --location --request POST 'https://api.pdf.co/v1/pdf/merge' \
   }'
 ```
 
-Send the request and confirm you receive a JSON response from the API.
+Using curl, send the request and check that you receive a JSON response from the API.
 
 
 ## Inspect the response
@@ -65,18 +65,23 @@ A successful response has `error: false` and a `status` value of `"200"`. A typi
   "outputLinkValidTill": "2026-08-15T12:00:00Z"
 }
 ```
+### Understand response fields
 
-The exact fields returned can depend on the operation and response timing. The returned `url` is a temporary output link in this example. In your own account, you can configure different storage strategies. The field `outputLinkValidTill` displays the temporary file expiry timestamp. Maximum duration depends on your subscription plan and what you set in the `expiration` field of your request. Learn more about request and response fields in the [Merge PDF API reference](./merge-reference.md).
+* The returned `url` is a temporary output link, but you can configure different storage strategies in your account. 
+* The field `outputLinkValidTill` displays the temporary file expiry timestamp. 
+* The duration depends on your subscription plan and what you set in the `expiration` attribute of your request. Learn more about request attributes in the [Merge PDF API reference](./merge-reference.md).
 
-A downstream automation can use the response like this:
+## What you can do with the response
 
-1. Check `error`.
-2. Check `status`.
-3. Store or pass `url` to the next workflow step.
-4. Record `credits` and `remainingCredits` for monitoring. Learn more about [how credits are charged](./credits.md).
-5. Save the output file to a permanent location.
+Once your request is processed, a downstream automation, such as Make or Zapier, can use the response to continue a business processes, such as storing invoice copies for bookkeeping:
 
-## Use asynchronous processing for longer jobs
+1. Check `status` is `200`.
+2. If check pass, pass `url` to the next workflow step.
+3. Record `credits` and `remainingCredits` in a spreadsheet for monitoring. Learn more about [how credits are charged](./credits.md).
+4. Save the output file to a permanent location.
+5. Alert Accounting team in Slack that a new invoice has been stored.
+
+## (Optional) Use asynchronous processing for longer jobs
 
 Synchronous processing is convenient for a short test. Asynchronous processing allows you to better handle a client or platform timeout. To submit an asynchronous request, set `async` to `true`:
 

@@ -7,36 +7,20 @@ status: draft
 
 # Fix errors in file merge actions
 
-When a merge action fails, diagnose the request in this order:
+When a merge action fails, you can find the cause by reviewing the following:
 
-1. Request fields
-2. Source-file access
-3. Size
-4. Processing time
-5. Downstream handling
+1. Source-file access.
+2. Size of file.
+3. Processing time.
+4. Downstream handling.
 
 This allows you to quickly find the spot where the request is failing.
 
-If you have not completed a merge request yet, start with [Merge PDF files](./merge-pdfs.md). For field definitions, read [Merge PDF API reference](./merge-reference.md).
-
-## Start with the response
-
-Inspect these fields:
-
-| Field | What it tells you | Possible values |
-| --- | --- | --- |
-| `error` | Whether PDF.co reports an error. | `true` = error. `false` = success. |
-| `status` | Status code for the request. | Values such as `200`, `404`, or `500`. Documented in [Response codes](https://developer.pdf.co/api/response-codes). |
-| `url` | Output file URL when the merge succeeds. | HTTPS URL to temporary storage. |
-| `pageCount` | Pages in the merged output. | Positive integer. |
-| `credits` | Credits consumed by the request. | Positive integer. |
-| `remainingCredits` | Credits remaining after the request. | Non-negative integer. |
-
-For status-specific behavior, use the [PDF.co response codes reference](https://developer.pdf.co/api/response-codes). Do not retry every failure automatically. A malformed request or inaccessible source URL will fail again and may waste processing time or credits.
+If you have not started a merge request yet, learn how to [merge PDF files](./merge-pdfs.md).
 
 ## Request validation checklist
 
-Check these items before investigating the source files. For full field definitions, read [Merge PDF API reference](./merge-reference.md).
+Before you send a request to the endpoint, check to ensure that:
 
 - The method is `POST`.
 - The path is `/v1/pdf/merge`.
@@ -54,6 +38,22 @@ This is a valid minimal body:
   "url": "https://example.com/first.pdf,https://example.com/second.pdf"
 }
 ```
+
+Performing this initial check may prevent future issues.
+
+## Response fields
+
+If your request is well-formed but the merge action fails, you may see errors and status codes in the response that can help you find the cause. Inspect these fields:
+
+| Field | What it tells you | Possible values |
+| --- | --- | --- |
+| `error` | Whether PDF.co reports an error. | `true` = error. `false` = success. |
+| `status` | Status code for the request. | Values such as `200`, `404`, or `500`. Find the full list in in [Response codes](https://developer.pdf.co/api/response-codes). |
+| `pageCount` | Pages in the merged output. If errored, may differ from the expected number of pages. | Positive integer. |
+
+
+Check the [PDF.co response codes reference](https://developer.pdf.co/api/response-codes) to learn more about all possible status codes. This page provides more details about the most common errors and how to fix them. 
+
 
 ## The source URL cannot be read
 
@@ -73,33 +73,25 @@ requires HTTP Basic Authentication, use `httpusername` and `httppassword` as
 documented request fields. Do not include credentials in a URL that may be
 logged or copied into an issue.
 
-For sensitive or reusable files, consider PDF.co's file-upload or built-in
-file-storage options instead of generating short-lived links in multiple
-systems.
+For sensitive or reusable files, consider PDF.co's `file-upload` endpoint or built-in
+file-storage options.
 
 ## The request exceeds the input-size limit
 
-The combined size of all input file URLs must not exceed 2 GB. The limit applies
-to the request as a whole, not just to one source file.
+The combined size of all input file URLs must not exceed 2 GB. 
 
 If the request is too large:
 
 1. Measure the size of every input.
 2. Remove duplicate or unnecessary files.
 3. Split the workflow into smaller merge jobs.
-4. Use asynchronous processing for longer jobs.
-5. Join the resulting documents in a later workflow step if that matches the
-   business requirement.
 
-Do not keep retrying an oversized request. It cannot succeed until the input
-set changes.
 
 ## The request times out
 
 Large or complex merges may take longer than a synchronous client or
 automation platform allows. Set `async` to `true` and then use the returned
-`jobId` with the
-[Background Job Check endpoint](https://developer.pdf.co/api/job-check), or
+`jobId` with the [Background Job Check endpoint](https://developer.pdf.co/api/job-check), or
 configure a callback URL.
 
 Example:
@@ -119,36 +111,33 @@ duplicate downstream records.
 ## The output link has expired
 
 PDF.co temporary output links are not permanent storage. The documented default
-for `expiration` is 60 minutes, and the maximum duration depends on the
+for `expiration` is 60 minutes, and the maximum duration depends on your
 subscription plan.
 
 If a downstream system needs the document later:
 
 - Download or copy the output into the system's controlled storage before the link expires.
-- Set a longer `expiration` value when the plan permits it.
+- Set a longer `expiration` value, if your plan allows it.
 - Use PDF.co built-in storage or another approved storage service for reusable files.
 
 Increasing expiration is not a substitute for a retention policy. Decide how
 long business documents should remain available and who can access them.
 
-## The cURL output contains `\u0026`
+## The cURL output contains unicode escape sequences
 
-The response may represent an ampersand in a URL as the Unicode escape
-sequence `\u0026`. This is normal JSON encoding. A JSON parser decodes it to
+The response may represent characters as unicode escape sequences, such as an ampersand as `\u0026`. This is normal JSON encoding. A JSON parser decodes it to
 `&`, and the URL remains valid.
 
-Do not repair the value by string replacement before parsing the JSON. Parse
-the response first, then use the decoded `url` value.
+Do not repair the value by string replacement before parsing the JSON. Parse the response first, then use the decoded `url` value.
 
 ## The merge succeeds but the workflow still fails
 
-Check the boundary between PDF.co and the next system:
+Check the handover between PDF.co and the next system:
 
 1. Did the workflow check `error` and `status` before using `url`?
 2. With `async` enabled, did it use `url` before Job Check or callback confirmed completion?
 3. Did it download the temporary output before expiration?
-4. Did it preserve the `pageCount`, `credits`, and request identifier in logs?
-5. Did the next system receive a file, a URL, or base64 data as configured?
+4. Did the next system receive the file, URL, or base64 data as expected?
 
 Keep the original request metadata and the PDF.co response together in an
 auditable record. That makes intermittent failures distinguishable from

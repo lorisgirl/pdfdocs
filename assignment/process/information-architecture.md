@@ -13,9 +13,8 @@ This document explains how the PDF.co merge sample is organized, why it uses thi
 
 ```
 assignment/
-├── README.md                          # Assignment index + component map
+├── README.md                          # Assignment index, topic selection, component map
 ├── process/                           # Author-facing workflow (any API topic)
-│   ├── topic-brief.md
 │   ├── information-architecture.md    # this document
 │   ├── lifecycle.md
 │   ├── dynamic-updates.md
@@ -45,7 +44,7 @@ assignment/
 
 This sample uses **README-based navigation** rather than a static site sidebar.
 
-1. **[assignment/README.md](../README.md):** Submission index with component map.
+1. **[assignment/README.md](../README.md):** Submission index, topic selection, and component map.
 2. **[pdfco-merge/README.md](../pdfco-merge/README.md):** Reader hub with page types, descriptions, and recommended reading order.
 3. **Cross-links within pages:** Relative Markdown links connect related content (for example, tutorial → reference → troubleshooting).
 
@@ -53,7 +52,7 @@ This works for a four-page sample browsed on GitHub. At scale (roughly 50+ pages
 
 ### Reading order
 
-Pages follow the integration journey described in the [topic brief](./topic-brief.md):
+Pages follow the integration journey described in the [assignment README](../README.md#what-the-reader-can-do-after-reading):
 
 ```
 merge-pdfs → merge-reference → credits → troubleshooting
@@ -100,7 +99,7 @@ integrations/             ← Zapier, Make, SDK wrappers
 
 ## Related documents
 
-- [Topic brief](./topic-brief.md): Scope, audience, and reader outcomes.
+- [Assignment README](../README.md): Scope, audience, and reader outcomes.
 - [Dynamic update scenarios](./dynamic-updates.md): Which files change for terminology, features, and stale docs.
 - [AI-assisted docs workflow](./ai-assisted-docs-workflow.md): How pages are drafted and reviewed.
 - [PDF.co merge sample hub](../pdfco-merge/README.md): Reader-facing index.

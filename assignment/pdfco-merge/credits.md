@@ -18,14 +18,16 @@ The amount of credit used depends on two inputs:
 
 For current rates, check the [PDF.co credit-pricing page](https://app.pdf.co/subscriptions).
 
-## Use the response as the operational record
+## Fields available for credit tracking
 
-The response of your request will always return two credit-related fields:
+Every response provides two credit-related fields:
 
 | Field | Meaning |
 | --- | --- |
 | `credits` | Credits consumed by the request. |
 | `remainingCredits` | Credits remaining in the account after the request. |
+
+You can record these fields to monitor usage of your account credits.
 
 Example:
 
@@ -42,7 +44,7 @@ Example:
 
 For more response field definitions, read [Merge PDF API reference](./merge-reference.md).
 
-> Note: The values in this example illustrate the response structure. Treat them as an example.
+> Note: The values in this example illustrate the response structure, not a guaranteed rate. 
 
 
 ## Estimate before building
@@ -55,54 +57,25 @@ The formula for credit usage is:
 expected pages × current credits-per-page rate = estimated credits
 ```
 
-For example, if you submit a merge request for 12 pages, using the published illustrative rate:
+For example, if you submit a merge request for 12 pages, using the illustrative rate of 2 credits per page:
 
 ```text
 12 pages × 2 credits per page = 24 credits
 ```
 
-Before treating this as a budget, verify if:
-
-- The selected operation is the PDF Merger API.
-- The pricing page shows a different current rate.
-- The account's plan changes the calculation.
-- The workflow merges every page or conditionally skips documents.
-
 Treat the result of the formula as an estimate when adding it to planning documents and dashboards.
 
-## Monitor credit usage in an automation
-
-If you want to keep track of your credit usage, record the following values for every merge request:
-
-- A workflow run identifier.
-- The number and source of input documents.
-- The expected page count, when known.
-- The PDF.co `status` and `error` fields.
-- `pageCount`.
-- `credits`.
-- `remainingCredits`.
-- Whether the request was synchronous or asynchronous.
-- The time the response was received.
-
-Use the data to detect:
-
-- Unexpected changes in document volume.
-- Retries that consume credits repeatedly.
-- Unusually large page counts.
-- Requests that succeed but approach the account's balance limit.
-- Differences between estimated and actual usage.
-
-To keep your account secure, do not log API keys, passwords, or sensitive source URLs in a dashboard.
 
 ## What to do when the balance is low
 
-If your account has a low balance, you'll not be able to send requests to the endpoint. You can:
+If your account has a low balance, you'll not be able to send requests to the endpoint that surpass your current available credits. You can:
 
 1. Select a different plan or credit-pack to extend your usage. Learn about the [different plan types](https://app.pdf.co/subscriptions).
 2. Pause non-critical, retry-heavy workflows.
 3. Preserve any failed request context for investigation on how to improve performance.
 
-The `remainingCredits` value is useful for runtime visibility, but may be outdated if multiple requests happen in parallel. Use the account dashboard and subscription pages as the source of truth for plan-level limits and purchasing decisions.
+> Note: The `remainingCredits` value is useful for runtime visibility, but may be outdated if multiple requests happen in parallel. 
+> Use the account dashboard and subscription pages as the source of truth for plan-level limits and purchasing decisions.
 
 ## Related pages
 

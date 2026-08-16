@@ -155,6 +155,6 @@ Do not invent API behavior. If sources disagree, record the conflict and resolve
 
 ## Content boundaries
 
-- Document `POST /v1/pdf/merge` unless the topic brief expands scope.
+- Document `POST /v1/pdf/merge` unless the assignment README expands scope.
 - Do not speculate about roadmap features.
 - Label credit examples as illustrative when rates can change.

@@ -8,15 +8,6 @@ Use the PDF.co merge endpoint to combine multiple PDF files into one output docu
 
 New to this endpoint? Work through [Merge PDF files](./merge-pdfs.md) to send your first request with `curl` and read the response.
 
-## Documentation
-
-| Type | Page | Description |
-|---|---|---|
-| **Tutorial** | [Merge PDF files](./merge-pdfs.md) | Send a first merge request and interpret the response |
-| **Reference** | [Merge PDF API reference](./merge-reference.md) | Request and response fields, profiles, and limits |
-| **Explanation** | [Understand how credits are charged](./credits.md) | Credit usage, estimation, and monitoring |
-| **Troubleshooting** | [Fix errors in file merge actions](./troubleshooting.md) | Diagnose failed requests and workflow handoffs |
-
 ## Recommended reading order
 
 1. [Merge PDF files](./merge-pdfs.md): Complete a first merge.

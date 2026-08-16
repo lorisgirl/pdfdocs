@@ -60,4 +60,4 @@ Suggest one revised sentence if needed. Do not add API facts not in the source.
 - [ ] Outcome is one sentence and testable
 - [ ] Outcome matches the Diátaxis page type
 - [ ] Scope boundaries are explicit where the official reference is large
-- [ ] Outcome aligns with [topic brief](../../../topic-brief.md) reader goals
+- [ ] Outcome aligns with [assignment README](../../../README.md) reader goals
