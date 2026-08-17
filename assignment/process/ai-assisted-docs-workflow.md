@@ -20,7 +20,7 @@ AI agents work efficiently with explicit and restrictive sources of truth. Hallu
 3. **PDF.co credit-pricing page:** current rates and account-level billing information.
 4. **Reader-facing Markdown pages** (for example, under `pdfco-merge/`): task-oriented explanations, examples, and troubleshooting guidance.
 
-If sources disagree, the AI agent must be instructed to surface the discrepancies to the writer, instead of choosing silently.
+If sources disagree, the AI agent is instructed to surface the discrepancies to the writer, instead of choosing silently.
 
 ## Skills and rules
 

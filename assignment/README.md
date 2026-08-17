@@ -41,7 +41,7 @@
 | 4 | AI-assisted workflow | Done | [process/ai-assisted-docs-workflow.md](process/ai-assisted-docs-workflow.md) |
 | 5 | End-to-end lifecycle | Done | [process/lifecycle.md](process/lifecycle.md) |
 | 6 | Dynamic update scenarios | Done | [process/dynamic-updates.md](process/dynamic-updates.md) |
-| 7 | Video walkthrough | Done | Submitted separately to recruiter (not hosted in this repo) |
+| 7 | Video walkthrough | Done | Submitted by email |
 
 ## Repository layout
 
